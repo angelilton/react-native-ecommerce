@@ -39,14 +39,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: BORDER_RADIUS,
   },
   subtitle: {
-    // fontFamily: 'SFProText-Semibold',
+    fontFamily: 'SFProText-Semibold',
     textTransform: 'capitalize',
     fontWeight: '500',
     fontSize: 24,
     color: '#0c0d34',
   },
   description: {
-    // fontFamily: 'SFProText-Regular',
+    fontFamily: 'SFProText-Regular',
     fontSize: 16,
     lineHeight: 24,
     textAlign: 'center',

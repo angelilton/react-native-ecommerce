@@ -6,10 +6,13 @@ import Animated, {
   useAnimatedStyle,
   useAnimatedRef,
   useAnimatedScrollHandler,
+  useDerivedValue,
 } from 'react-native-reanimated';
 
 import Slide, { SLIDE_HEIGHT } from './Slide';
 import SubSlide, { subSlideProps } from './SubSlide';
+import Dot from './Dot';
+import {  Asset } from 'expo-asset';
 
 const { width } = Dimensions.get('window');
 
@@ -18,30 +21,32 @@ export const BORDER_RADIUS = 75
 const Onboarding = () => {
   const translationX = useSharedValue(0);
   const scroll = useRef<Animated.ScrollView>(null);
+  const currentIndex = useDerivedValue(() => translationX.value / width);
+
+  const backgroundColor = mockSlide.map(({ color }) => color)
   
+
+  // return a ({contentOffset}) =>
   const scrollHandler = useAnimatedScrollHandler((event) => {
     translationX.value = event.contentOffset.x;
   });
 
+
   const slideColors = useAnimatedStyle(() => {
     return {
-      border: '1px solid red',
       backgroundColor: interpolateColor(
         translationX.value,
         [0, width, width * 2, width * 3],
-        ['#BFEAF5', '#BEECC4', '#FFE4D9', '#FFDDDD']
+        backgroundColor
       ),
     };
   });
 
   const animatedSubSlide = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: translationX.value * (-1) }],
+      transform: [{ translateX: translationX.value * -1 }],
     };
   });
-
-
-
 
   return (
     <View style={styles.container}>
@@ -56,42 +61,49 @@ const Onboarding = () => {
           scrollEventThrottle={16}
           onScroll={scrollHandler}
         >
-          <Slide label='Relaxed' />
-          <Slide label='Playful' right />
-          <Slide label='Excentric' />
-          <Slide label='Funky' right />
+          {mockSlide.map(({ label, picture }, index) => (
+            <Slide key={index} right={!!(index % 2)} {...{ label, picture }} />
+          ))}
         </Animated.ScrollView>
       </Animated.View>
       <View style={styles.footer}>
         <Animated.View
-          style={[{ ...StyleSheet.absoluteFillObject }, slideColors]}
-        />
-        <Animated.View
           style={[
-            styles.footerContainer,
             {
-              flex: 1,
-              width: width * subSlideMock.length,
+              ...StyleSheet.absoluteFillObject,
             },
-            animatedSubSlide,
+            slideColors,
           ]}
-        >
-          {subSlideMock.map(({ subtitle, description }, index) => (
-            <SubSlide
-              key={index}
-              onPress={() => {
-                if (scroll.current) {
-                  scroll.current.scrollTo({
-                    x: width * (index + 1),
-                    animated: true,
-                  });
-                }
-              }}
-              isLast={index === subSlideMock.length - 1}
-              {...{ subtitle, description }}
-            />
-          ))}
-        </Animated.View>
+        />
+        <View style={styles.footerContainer}>
+          <Dot dots={Object.keys(mockSlide)} currentIndex={currentIndex} />
+          <Animated.View
+            style={[
+              {
+                flex: 1,
+                flexDirection: 'row',
+                width: width * mockSlide.length,
+              },
+              animatedSubSlide,
+            ]}
+          >
+            {mockSlide.map(({ subtitle, description }, index) => (
+              <SubSlide
+                key={index}
+                onPress={() => {
+                  if (scroll.current) {
+                    scroll.current.scrollTo({
+                      x: width * (index + 1),
+                      animated: true,
+                    });
+                  }
+                }}
+                isLast={index === mockSlide.length - 1}
+                {...{ subtitle, description }}
+              />
+            ))}
+          </Animated.View>
+        </View>
       </View>
     </View>
   );
@@ -111,34 +123,44 @@ const styles = StyleSheet.create({
   },
   footerContainer: {
     flex: 1,
-    zIndex: 1,
-    flexDirection: 'row',
     backgroundColor: 'white',
     borderTopLeftRadius: BORDER_RADIUS,
   },
 });
 
 
-const subSlideMock = [
+const mockSlide = [
   {
+    label: 'Relaxed',
+    color:'#BFEAF5', 
     subtitle: 'Find Your Outfits',
     description:
       'Mussum Ipsum, cacilds vidis litro abertis. Praesent malesuada urna nisi,',
+    picture: require('@assets/img/img-01.png'),
   },
   {
+    label: 'Playful',
+    color: '#BEECC4', 
     subtitle: 'hear it first, wear it first',
     description:
       'Mussum Ipsum, cacilds vidis litro abertis. Praesent malesuada urna nisi,',
+    picture: require('@assets/img/img-02.png'),
   },
   {
+    label: 'Eccentric',
+    color: '#FFE4D9',
     subtitle: 'your style, your way',
     description:
       'Mussum Ipsum, cacilds vidis litro abertis. Praesent malesuada urna nisi,',
+    picture: require('@assets/img/img-03.png'),
   },
   {
+    label: 'Funky',
+    color:  '#FFDDDD',
     subtitle: 'look good, feel good',
     description:
       'Mussum Ipsum, cacilds vidis litro abertis. Praesent malesuada urna nisi,',
+    picture: require('@assets/img/img-05.png'),
   },
 ];
 

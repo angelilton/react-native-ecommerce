@@ -10,7 +10,7 @@ type ButtonProps = {
 const Button = ({ label, type = 'default', onPress }: ButtonProps) => {
   const backgroundColor =
     type === 'primary' ? '#2cb9b0' : 'rgba(12, 13, 52,0.05)';
-  const color = type === 'primary' ? 'white' : '#0c0d34';
+  const color = type === 'primary' ? 'white' : '#2cb9b0';
 
   return (
     <RectButton
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     width: 245,
   },
   label: {
-    // fontFamily: 'SFProText-Regular',
+    fontFamily: 'SFProText-Regular',
     fontSize: 15,
     textAlign: 'center'
   },
