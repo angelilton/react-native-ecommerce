@@ -3,5 +3,12 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": "./",
-  }
+    "paths":{
+      "@components/*": ["./src/components/*"],
+      "@Authentication/*": ["./src/Authentication/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@hooks/*": ["./src/hooks/*"],
+    },
+}
 }

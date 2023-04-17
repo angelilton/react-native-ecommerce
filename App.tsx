@@ -1,13 +1,15 @@
 import * as React from 'react';
+import { ThemeProvider } from 'styled-components/native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Onboarding from './src/Authentication/Onboarding';
-import LoadAssets from './src/components/LoadAssets';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-const { Navigator, Screen } = createStackNavigator();
+import Onboarding from '@Authentication/Onboarding'
+import LoadAssets from '@components/LoadAssets';
+import theme from './src/theme';
 
-// const assets = [...authAssets, ...homeAssets];
+
+const { Navigator, Screen } = createStackNavigator();
 
 const fonts = {
   'SFProText-Bold': require('./assets/fonts/SF-Pro-Text-Bold.otf'),
@@ -18,17 +20,19 @@ const fonts = {
 
 const AuthenticationScreen = () => {
   return (
-    <LoadAssets {...{ fonts }}>
-      <SafeAreaProvider>
-        <Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Screen name='Onboarding' component={Onboarding} />
-        </Navigator>
-      </SafeAreaProvider>
-    </LoadAssets>
+    <ThemeProvider theme={theme}>
+      <LoadAssets {...{ fonts }}>
+        <SafeAreaProvider>
+          <Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+            >
+            <Screen name='Onboarding' component={Onboarding} />
+          </Navigator>
+        </SafeAreaProvider>
+      </LoadAssets>
+    </ThemeProvider>
   );
 }
 
