@@ -1,11 +1,13 @@
 import { useRef } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import Animated, {
   useSharedValue,
   interpolateColor,
   useAnimatedStyle,
   useAnimatedScrollHandler,
   useDerivedValue,
+  interpolate,
+  Extrapolate,
 } from 'react-native-reanimated';
 
 import Slide from './Slide';
@@ -39,19 +41,19 @@ const Onboarding = () => {
   });
 
 
-  const slideColors = useAnimatedStyle(() => ({
+  const slideBody = useAnimatedStyle(() => ({
     height: SLIDE_HEIGHT,
     borderBottomEndRadius: BORDER_RADIUS,
-    backgroundColor: backgroundColor.value
+    backgroundColor: backgroundColor.value,
   }));
 
   const slideBorder = useAnimatedStyle(() => ({
     backgroundColor: backgroundColor.value,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
+    // bottom: 0,
+    // left: 0,
+    // position: 'absolute',
+    // right: 0,
+    // top: 0,
   }));
 
   const animatedSubSlide = useAnimatedStyle(() => ({
@@ -61,9 +63,10 @@ const Onboarding = () => {
     width: width * mockSlide.length
   }));
 
+  
   return (
     <Container>
-      <Animated.View style={slideColors}>
+      <Animated.View style={[slideBody]}>
         <Animated.ScrollView
           ref={scroll}
           horizontal
@@ -74,13 +77,41 @@ const Onboarding = () => {
           scrollEventThrottle={16}
           onScroll={scrollHandler}
         >
-          {mockSlide.map(({ label, picture }, index) => (
-            <Slide key={index} right={!!(index % 2)} {...{ label, picture }} />
-          ))}
+          {mockSlide.map(({ label, picture }, index) => {
+            const stylesCover = useAnimatedStyle(() => {
+              const opacity = interpolate(
+                translationX.value,
+                [(index - 0.5) * width, index * width, (index + 0.5) * width],
+                [0.7, 0.8, 0.7],
+                Extrapolate.CLAMP
+              );
+              const scale = interpolate(
+                currentIndex.value,
+                [index - 1, index, index + 1],
+                [0.5, 1, 0.5],
+                Extrapolate.CLAMP
+              );
+
+              return {
+                opacity,
+                transform: [{ scale }],
+              };
+            }, [index, currentIndex, translationX]);
+
+            return (
+              <Slide
+                key={index}
+                right={!!(index % 2)}
+                {...{ label, picture, stylesCover }}
+              />
+            );
+          })}
         </Animated.ScrollView>
       </Animated.View>
       <Footer>
-        <Animated.View style={slideBorder} />
+        <Animated.View
+          style={[{ ...StyleSheet.absoluteFillObject }, slideBorder]}
+        />
         <FooterContainer>
           <Dot dots={Object.keys(mockSlide)} currentIndex={currentIndex} />
           <Animated.View style={animatedSubSlide}>

@@ -1,10 +1,16 @@
 import {  View, Image, StyleSheet, Dimensions } from 'react-native';
 import { Text } from '@components/index'
+import Animated, {
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
 
 type SLidProps = {
   label: string;
   picture: any;
   right?: boolean;
+  stylesCover: any;
 };
 
 const { width, height } = Dimensions.get('window');
@@ -13,25 +19,25 @@ export const SLIDE_HEIGHT = 0.61 * height;
 
 const BORDER_RADIUS = 75;
 
-const Slide = ({ label, right, picture }: SLidProps) => {
+const Slide = ({ label, right, picture, stylesCover }: SLidProps) => {
   const transform = [
     { translateY: (SLIDE_HEIGHT - 100) / 2 },
     { translateX: right ? width / 2 - 50 : -width / 2 + 50 },
     { rotate: right ? '-90deg' : '90deg' },
   ];
 
-    return (
-      <View style={styles.container}>
-        <View>
-          <View style={styles.underlay}>
-            <Image source={picture} style={styles.picture} />
-          </View>
-        </View>
-        <View style={[styles.TitleContainer, { transform }]}>
-          <Text type={'hero'}>{label}</Text>
-        </View>
+  return (
+    <View style={styles.container}>
+      <View>
+        <Animated.View style={[styles.underlay, stylesCover]}>
+          <Image source={picture} style={styles.picture} />
+        </Animated.View>
       </View>
-    );
+      <View style={[styles.TitleContainer, { transform }]}>
+        <Text type={'hero'}>{label}</Text>
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
@@ -42,11 +48,9 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    width: width - 5,
+    width: width,
     height: SLIDE_HEIGHT,
-    opacity: 0.7,
     borderBottomRightRadius: BORDER_RADIUS,
-    zIndex: 80,
   },
   picture: {
     ...StyleSheet.absoluteFillObject,
@@ -54,8 +58,7 @@ const styles = StyleSheet.create({
     height: undefined,
     objectFit: 'cover',
     borderBottomRightRadius: BORDER_RADIUS,
-    borderBottomLeftRadius: BORDER_RADIUS,
-    zIndex: 50
+    // borderBottomLeftRadius: BORDER_RADIUS,
   },
   TitleContainer: {
     height: 100,
