@@ -1,4 +1,5 @@
-import { Text, View,Image, StyleSheet, Dimensions, ImageProps } from 'react-native';
+import {  View, Image, StyleSheet, Dimensions } from 'react-native';
+import { Text } from '@components/index'
 
 type SLidProps = {
   label: string;
@@ -9,6 +10,7 @@ type SLidProps = {
 const { width, height } = Dimensions.get('window');
 
 export const SLIDE_HEIGHT = 0.61 * height;
+
 const BORDER_RADIUS = 75;
 
 const Slide = ({ label, right, picture }: SLidProps) => {
@@ -18,8 +20,6 @@ const Slide = ({ label, right, picture }: SLidProps) => {
     { rotate: right ? '-90deg' : '90deg' },
   ];
 
-
-  
     return (
       <View style={styles.container}>
         <View>
@@ -28,7 +28,7 @@ const Slide = ({ label, right, picture }: SLidProps) => {
           </View>
         </View>
         <View style={[styles.TitleContainer, { transform }]}>
-          <Text style={styles.title}>{label}</Text>
+          <Text type={'hero'}>{label}</Text>
         </View>
       </View>
     );
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     objectFit: 'cover',
     borderBottomRightRadius: BORDER_RADIUS,
     borderBottomLeftRadius: BORDER_RADIUS,
+    zIndex: 50
   },
   TitleContainer: {
     height: 100,

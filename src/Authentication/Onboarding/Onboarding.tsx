@@ -1,20 +1,21 @@
 import { useRef } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { Dimensions } from 'react-native';
 import Animated, {
   useSharedValue,
   interpolateColor,
   useAnimatedStyle,
-  useAnimatedRef,
   useAnimatedScrollHandler,
   useDerivedValue,
 } from 'react-native-reanimated';
 
-import Slide, { SLIDE_HEIGHT } from './Slide';
-import SubSlide, { subSlideProps } from './SubSlide';
+import Slide from './Slide';
+import SubSlide from './SubSlide';
 import Dot from './Dot';
-import {  Asset } from 'expo-asset';
+import styled, { css } from 'styled-components/native';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
+
+export const SLIDE_HEIGHT = 0.61 * height;
 
 export const BORDER_RADIUS = 75
 
@@ -23,8 +24,14 @@ const Onboarding = () => {
   const scroll = useRef<Animated.ScrollView>(null);
   const currentIndex = useDerivedValue(() => translationX.value / width);
 
-  const backgroundColor = mockSlide.map(({ color }) => color)
-  
+  const bgColors = mockSlide.map(({ color }) => color)
+
+  const backgroundColor = useDerivedValue(() =>
+    interpolateColor(
+      translationX.value,
+      [0, width, width * 2, width * 3],
+      bgColors
+    ))
 
   // return a ({contentOffset}) =>
   const scrollHandler = useAnimatedScrollHandler((event) => {
@@ -32,25 +39,31 @@ const Onboarding = () => {
   });
 
 
-  const slideColors = useAnimatedStyle(() => {
-    return {
-      backgroundColor: interpolateColor(
-        translationX.value,
-        [0, width, width * 2, width * 3],
-        backgroundColor
-      ),
-    };
-  });
+  const slideColors = useAnimatedStyle(() => ({
+    height: SLIDE_HEIGHT,
+    borderBottomEndRadius: BORDER_RADIUS,
+    backgroundColor: backgroundColor.value
+  }));
 
-  const animatedSubSlide = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: translationX.value * -1 }],
-    };
-  });
+  const slideBorder = useAnimatedStyle(() => ({
+    backgroundColor: backgroundColor.value,
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  }));
+
+  const animatedSubSlide = useAnimatedStyle(() => ({
+    transform: [{ translateX: translationX.value * -1 }],
+    flex: 1,
+    flexDirection: 'row',
+    width: width * mockSlide.length
+  }));
 
   return (
-    <View style={styles.container}>
-      <Animated.View style={[styles.slider, slideColors]}>
+    <Container>
+      <Animated.View style={slideColors}>
         <Animated.ScrollView
           ref={scroll}
           horizontal
@@ -66,27 +79,11 @@ const Onboarding = () => {
           ))}
         </Animated.ScrollView>
       </Animated.View>
-      <View style={styles.footer}>
-        <Animated.View
-          style={[
-            {
-              ...StyleSheet.absoluteFillObject,
-            },
-            slideColors,
-          ]}
-        />
-        <View style={styles.footerContainer}>
+      <Footer>
+        <Animated.View style={slideBorder} />
+        <FooterContainer>
           <Dot dots={Object.keys(mockSlide)} currentIndex={currentIndex} />
-          <Animated.View
-            style={[
-              {
-                flex: 1,
-                flexDirection: 'row',
-                width: width * mockSlide.length,
-              },
-              animatedSubSlide,
-            ]}
-          >
+          <Animated.View style={animatedSubSlide}>
             {mockSlide.map(({ subtitle, description }, index) => (
               <SubSlide
                 key={index}
@@ -103,30 +100,29 @@ const Onboarding = () => {
               />
             ))}
           </Animated.View>
-        </View>
-      </View>
-    </View>
+        </FooterContainer>
+      </Footer>
+    </Container>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  slider: {
-    height: SLIDE_HEIGHT,
-    borderBottomEndRadius: BORDER_RADIUS,
-  },
-  footer: {
-    flex: 1,
-  },
-  footerContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    borderTopLeftRadius: BORDER_RADIUS,
-  },
-});
+const Container = styled.View`
+  flex: 1;
+  background-color: ${({ theme }) => theme.colors.background};
+`;
+
+const Footer = styled.View`
+  flex: 1;
+`;
+
+const FooterContainer = styled.View`
+  ${({ theme }) => css`
+    flex: 1;
+    background-color: ${theme.colors.background};
+    border-top-left-radius: ${theme.border.xl};
+  `}
+`;
+
 
 
 const mockSlide = [

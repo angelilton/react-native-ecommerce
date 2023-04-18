@@ -1,7 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native';
-import Animated from 'react-native-reanimated'
-import { BORDER_RADIUS } from './Onboarding';
-import { Button } from '../../components';
+import { Button, Text } from '@components/index';
+import styled, { css } from 'styled-components/native';
 
 export type subSlideProps = {
   description: string
@@ -18,41 +16,36 @@ const SubSlide = ({
   onPress,
 }: subSlideProps) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.subtitle}>{subtitle}</Text>
-      <Text style={styles.description}>{description}</Text>
+    <Container center>
+      <Text type={'subtitle'}>{subtitle}</Text>
+      <Text type={'description'}>{description}</Text>
       <Button
-        {...{onPress}}
+        {...{ onPress }}
         label={isLast ? "let's get started" : 'Next'}
         type={isLast ? 'primary' : 'default'}
       />
-    </View>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 15,
-    borderTopLeftRadius: BORDER_RADIUS,
-  },
-  subtitle: {
-    fontFamily: 'SFProText-Semibold',
-    textTransform: 'capitalize',
-    fontWeight: '500',
-    fontSize: 24,
-    color: '#0c0d34',
-  },
-  description: {
-    fontFamily: 'SFProText-Regular',
-    fontSize: 16,
-    lineHeight: 24,
-    textAlign: 'center',
-    color: '#0c0d34',
-    marginBottom: 25
-  },
-});
+
+
+type ContainerProps = {
+  center?: Boolean
+}
+
+const FlexCenter = css`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Container = styled.View<ContainerProps>`
+  ${({ theme, center }: any) => css`
+    gap: ${theme.spacing.l};
+    border-top-left-radius: ${theme.border.xl};
+    ${center && FlexCenter}
+  `}
+`;
 
 export default SubSlide

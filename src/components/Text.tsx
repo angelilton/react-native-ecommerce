@@ -39,8 +39,7 @@ const textType = {
     line-height: ${spacing.l};
     color: ${colors.secondary};
   `,
-};
-
+}
 
 export const Text = styled.Text<TextProps>`
   ${(p) => textType[p.type](p.theme)}

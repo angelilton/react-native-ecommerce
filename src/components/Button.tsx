@@ -1,40 +1,43 @@
-import { Text, StyleSheet, View } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler';
+import styled, { css, useTheme } from 'styled-components/native';
+import { Text } from './Text';
+
+type ButtonType = {
+  type: 'default' | 'primary';
+};
 
 type ButtonProps = {
-  type: 'default' | 'primary'
-  label: string,
-  onPress: () => void
-}
+  label: string;
+  onPress: () => void;
+} & ButtonType;
 
 const Button = ({ label, type = 'default', onPress }: ButtonProps) => {
-  const backgroundColor =
-    type === 'primary' ? '#2cb9b0' : 'rgba(12, 13, 52,0.05)';
-  const color = type === 'primary' ? 'white' : '#2cb9b0';
+const { colors } = useTheme();
+  
+  const color = type === 'primary' ? colors.white : colors.primary;
 
   return (
-    <RectButton
+    <ButtonWhapper
+      type={type}
       {...{ onPress }}
-      style={[styles.container, { backgroundColor }]}
     >
-      <Text style={[styles.label, { color }]}>{label}</Text>
-    </RectButton>
+      <Text type={'description'}  style={{ color }}>{label}</Text>
+    </ButtonWhapper>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 25,
-    height: 50,
-    width: 245,
-  },
-  label: {
-    fontFamily: 'SFProText-Regular',
-    fontSize: 15,
-    textAlign: 'center'
-  },
-});
+const ButtonWhapper = styled(RectButton)<ButtonType>`
+  ${({ theme, type }) => css`
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    height: 50px;
+    width: 245px;
+    background-color: ${type === 'primary'
+      ? theme.colors.primary
+      : theme.colors.darkGrey50};
+  `}
+`;
+
 
 export default Button;

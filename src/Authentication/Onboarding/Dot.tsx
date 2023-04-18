@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native'
-import React, { useEffect } from 'react'
 import Animated, { Extrapolate, interpolate, useAnimatedStyle } from 'react-native-reanimated'
+import { useTheme } from 'styled-components/native';
 
 type DotProps = {
   dots: Array<string>;
@@ -8,7 +8,10 @@ type DotProps = {
 };
 
 const Dot = ({ dots, currentIndex }: DotProps) => {
-  
+  const { colors } = useTheme()
+
+  const dotsIndex = Object.keys(dots);
+   
   return (
     <View style={styles.pagination}>
       {dots.map((_, index) => {
@@ -28,7 +31,7 @@ const Dot = ({ dots, currentIndex }: DotProps) => {
 
           return {
             opacity,
-            backgroundColor: 'rgba(12, 13, 52,0.5)',
+            backgroundColor: colors.dot,
             width: 8,
             height: 8,
             borderRadius: 4,

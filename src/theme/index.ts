@@ -32,6 +32,7 @@ export default {
     drawer2: palette.yellow,
     drawer3: palette.pink,
     drawer4: palette.violet,
+    dot: 'rgba(12, 13, 52,0.5)',
     ...palette,
   },
   sizes: {
