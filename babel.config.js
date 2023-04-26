@@ -14,6 +14,7 @@ module.exports = function (api) {
             '@Authentication': './src/Authentication',
             '@screens': './src/screens',
             '@assets': './src/assets',
+            '@theme': '.src/theme',
             '@hooks': './src/hooks',
           },
         },

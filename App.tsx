@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { ThemeProvider } from 'styled-components/native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import Onboarding from '@Authentication/Onboarding'
+import { AuthRoutes } from '@Authentication/Onboarding'
 import LoadAssets from '@components/LoadAssets';
 import theme from './src/theme';
-
 
 const { Navigator, Screen } = createStackNavigator();
 
@@ -17,8 +15,7 @@ const fonts = {
   'SFProText-Regular': require('./assets/fonts/SF-Pro-Text-Regular.otf'),
 };
 
-
-const AuthenticationScreen = () => {
+export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <LoadAssets {...{ fonts }}>
@@ -27,19 +24,11 @@ const AuthenticationScreen = () => {
             screenOptions={{
               headerShown: false,
             }}
-            >
-            <Screen name='Onboarding' component={Onboarding} />
+          >
+            <Screen name='Authentication' component={AuthRoutes} />
           </Navigator>
         </SafeAreaProvider>
       </LoadAssets>
     </ThemeProvider>
-  );
-}
-
-export default function App() {
-  return (
-    <NavigationContainer>
-      <AuthenticationScreen />
-    </NavigationContainer>
   );
 }

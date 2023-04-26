@@ -1,5 +1,7 @@
 import { useRef } from 'react';
+import styled, { css } from 'styled-components/native';
 import { Dimensions, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Animated, {
   useSharedValue,
   interpolateColor,
@@ -13,7 +15,6 @@ import Animated, {
 import Slide from './Slide';
 import SubSlide from './SubSlide';
 import Dot from './Dot';
-import styled, { css } from 'styled-components/native';
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,6 +25,7 @@ export const BORDER_RADIUS = 75
 const Onboarding = () => {
   const translationX = useSharedValue(0);
   const scroll = useRef<Animated.ScrollView>(null);
+  const navigation = useNavigation();
   const currentIndex = useDerivedValue(() => translationX.value / width);
 
   const bgColors = mockSlide.map(({ color }) => color)
@@ -48,12 +50,7 @@ const Onboarding = () => {
   }));
 
   const slideBorder = useAnimatedStyle(() => ({
-    backgroundColor: backgroundColor.value,
-    // bottom: 0,
-    // left: 0,
-    // position: 'absolute',
-    // right: 0,
-    // top: 0,
+    backgroundColor: backgroundColor.value
   }));
 
   const animatedSubSlide = useAnimatedStyle(() => ({
@@ -115,21 +112,26 @@ const Onboarding = () => {
         <FooterContainer>
           <Dot dots={Object.keys(mockSlide)} currentIndex={currentIndex} />
           <Animated.View style={animatedSubSlide}>
-            {mockSlide.map(({ subtitle, description }, index) => (
-              <SubSlide
-                key={index}
-                onPress={() => {
-                  if (scroll.current) {
-                    scroll.current.scrollTo({
-                      x: width * (index + 1),
-                      animated: true,
-                    });
-                  }
-                }}
-                isLast={index === mockSlide.length - 1}
-                {...{ subtitle, description }}
-              />
-            ))}
+            {mockSlide.map(({ subtitle, description }, index) => {
+              const last = index === mockSlide.length - 1;
+              const handleOnPress = () => {
+                if (last) {
+                     navigation.navigate('Welcome');
+                } else {
+                  scroll.current?.scrollTo({
+                    x: width * (index + 1),
+                    animated: true,
+                  })
+                }
+              }
+              return (
+                <SubSlide
+                  key={index}
+                  onPress={handleOnPress}
+                  isLast={index === mockSlide.length - 1}
+                  {...{ subtitle, description }}
+                />
+              )})}
           </Animated.View>
         </FooterContainer>
       </Footer>
