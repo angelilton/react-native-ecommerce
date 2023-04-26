@@ -1,10 +1,6 @@
 import {  View, Image, StyleSheet, Dimensions } from 'react-native';
 import { Text } from '@components/index'
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
 type SLidProps = {
   label: string;
@@ -57,8 +53,7 @@ const styles = StyleSheet.create({
     width: undefined,
     height: undefined,
     objectFit: 'cover',
-    borderBottomRightRadius: BORDER_RADIUS,
-    // borderBottomLeftRadius: BORDER_RADIUS,
+    borderBottomRightRadius: BORDER_RADIUS
   },
   TitleContainer: {
     height: 100,

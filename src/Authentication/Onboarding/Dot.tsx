@@ -10,8 +10,6 @@ type DotProps = {
 const Dot = ({ dots, currentIndex }: DotProps) => {
   const { colors } = useTheme()
 
-  const dotsIndex = Object.keys(dots);
-   
   return (
     <View style={styles.pagination}>
       {dots.map((_, index) => {

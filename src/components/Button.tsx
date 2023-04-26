@@ -11,7 +11,7 @@ type ButtonProps = {
   onPress: () => void;
 } & ButtonType;
 
-const Button = ({ label, type = 'default', onPress }: ButtonProps) => {
+const Button = ({ label, type, onPress }: ButtonProps) => {
 const { colors } = useTheme();
   
   const color = type === 'primary' ? colors.white : colors.primary;
