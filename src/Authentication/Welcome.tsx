@@ -1,10 +1,9 @@
-import Button from '@components/Button';
-import { Text } from '@components/Text'
+import { Text, Button } from '@components/index';
 import { useNavigation } from '@react-navigation/native';
 import { Dimensions } from 'react-native';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import styled, { DefaultTheme, css } from 'styled-components/native'
-import { SLIDE_HEIGHT } from './Slide';
+import { SLIDE_HEIGHT } from './Onboarding/Slide';
 
 
 const picture = require('@assets/img/img-06.png')
@@ -24,7 +23,7 @@ export default function Welcome() {
         <TextContainer bkColor='background'>
           <Text type='subtitle'>Let's get started</Text>
           <Text type='description'>
-            Login to your account below or signup for an amazing experience
+            Login to your account below or sign-up for an amazing experience
           </Text>
 
           <Button

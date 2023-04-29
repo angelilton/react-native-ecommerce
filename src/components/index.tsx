@@ -1,2 +1,3 @@
-export { default as Button } from './Button';
+export {  Button } from './Button';
 export {  Text } from './Text';
+export { Layout } from './Layout';

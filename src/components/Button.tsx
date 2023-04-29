@@ -11,7 +11,7 @@ type ButtonProps = {
   onPress: () => void;
 } & ButtonType;
 
-const Button = ({ label, type, onPress }: ButtonProps) => {
+export const Button = ({ label, type, onPress }: ButtonProps) => {
 const { colors } = useTheme();
   
   const color = type === 'primary' ? colors.white : colors.primary;
@@ -21,7 +21,7 @@ const { colors } = useTheme();
       type={type}
       {...{ onPress }}
     >
-      <Text type={'description'}  style={{ color }}>{label}</Text>
+      <Text type={'description'} style={{ color }}>{label}</Text>
     </ButtonWhapper>
   );
 };
@@ -38,6 +38,3 @@ const ButtonWhapper = styled(RectButton)<ButtonType>`
       : theme.colors.darkGrey50};
   `}
 `;
-
-
-export default Button;
