@@ -54,5 +54,7 @@ export default {
     m: '10px',
     l: '25px',
     xl: '75px',
+    nxl: 75,
+    nl:25
   },
 };
