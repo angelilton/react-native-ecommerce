@@ -1,5 +1,7 @@
+import Constants from 'expo-constants';
 import { ReactNode } from 'react';
-import { View } from 'react-native';
+import { View, Dimensions, Platform } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styled, { css, useTheme } from 'styled-components/native';
 
 const assets = [
@@ -11,23 +13,26 @@ const assets = [
 type LayoutProps = {
   children: ReactNode;
   footer: ReactNode;
-  // pattern?: 0 | 1 | 2;
 };
+
+const { width, height } = Dimensions.get('window');
 
 export const Layout = ({ footer, children }: LayoutProps) => {
   const { border } = useTheme();
 
   return (
-    <Container>
-      <ImgBox>
-        <ImageCover source={assets[0]} resizeMode='cover' />
-      </ImgBox>
-      <View style={{ height: border.nxl }}>
-        <ImageCover source={assets[2]} resizeMode='cover' left />
-      </View>
-      <MainBox>{children}</MainBox>
-      <FooterBox>{footer}</FooterBox>
-    </Container>
+    <KeyboardAwareScrollView scrollEnabled={false}>
+      <Container>
+        <ImgBox>
+          <ImageCover source={assets[0]} resizeMode='cover' />
+        </ImgBox>
+        <View style={{ height: border.nxl }}>
+          <ImageCover source={assets[2]} resizeMode='cover' left />
+        </View>
+        <MainBox>{children}</MainBox>
+        <FooterBox>{footer}</FooterBox>
+      </Container>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -57,6 +62,7 @@ const ImgBox = styled.View`
 
 const Container = styled.View`
   flex: 1;
+  height: ${height + (Platform.OS === "android" ? Constants.statusBarHeight : 0)}px;
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
@@ -65,8 +71,6 @@ const MainBox = styled.View`
     z-index: 3;
     flex: 1;
     flex-grow: 4;
-    /* justify-content: center; */
-    /* align-items: center; */
     margin-top: -${theme.border.xl};
     margin-bottom: -${theme.border.xl};
     border-bottom-left-radius: ${theme.border.xl};

@@ -1,5 +1,7 @@
 import { Text } from '@components/index';
-import { BorderlessButton } from 'react-native-gesture-handler';
+import {
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import AnimatedCheckbox from 'react-native-checkbox-reanimated';
 import styled, { useTheme } from 'styled-components/native';
 import { Control, FieldValues, UseControllerProps, useController } from 'react-hook-form';
@@ -25,7 +27,7 @@ const Checkbox = ({
   const { colors } = useTheme();
 
   return (
-    <BorderlessButton
+    <TouchableWithoutFeedback
       onPress={() => onChange(!value)}
       style={{ flexDirection: 'row', gap: 6 }}
     >
@@ -33,12 +35,12 @@ const Checkbox = ({
         <AnimatedCheckbox
           checked={value}
           highlightColor={colors.primary}
-          checkmarkColor={colors.background}
+          checkmarkColor={colors.primary}
           boxOutlineColor={colors.primary}
         />
       </Box>
       <Text type='description'>{label}</Text>
-    </BorderlessButton>
+    </TouchableWithoutFeedback>
   );
 };
 

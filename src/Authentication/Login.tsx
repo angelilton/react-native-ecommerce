@@ -1,37 +1,32 @@
-import styled, { css, useTheme } from 'styled-components/native'
-import SocialLogin from '@components/SocialLogin'
-import { Button, Text, Layout } from '@components/index';
-import { useNavigation } from '@react-navigation/native'
-import { BorderlessButton } from 'react-native-gesture-handler'
-import InputFiled from '@components/form/InputFiled';
+import styled, { css, useTheme } from 'styled-components/native';
+import SocialLogin from '@components/SocialLogin';
+import { Button, Text, Layout, InputFiled, Checkbox } from '@components/index';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Dimensions } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import Checkbox from '@components/form/Checkbox';
 
 const ButtonForgotPass = () => {
-  const navigation = useNavigation()
-  const { colors } = useTheme()
-  
+  const navigation = useNavigation();
+  const { colors } = useTheme();
+
   return (
-    <BorderlessButton
+    <TouchableWithoutFeedback
       onPress={() => navigation.navigate('ForgotPassword')}
     >
-      <Text
-        type='description'
-        style={{ color: colors.primary }}
-      >
+      <Text type='description' style={{ color: colors.primary }}>
         Forgot Password
       </Text>
-    </BorderlessButton>
+    </TouchableWithoutFeedback>
   );
-}
+};
 
 export type FormProps = {
   email: string;
   password: string;
-  remember: boolean
+  remember: boolean;
 };
 
 const LoginSchema = Yup.object().shape({
@@ -53,9 +48,10 @@ const Login = () => {
     defaultValues: { email: '', password: '', remember: false },
   });
 
-  
-  const onSubmit = (data:any) => { console.log(data);}
-  
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
   return (
     <Layout footer={<SocialLogin />}>
       <Container>
@@ -82,11 +78,7 @@ const Login = () => {
             secureTextEntry
           />
           <Box>
-            <Checkbox
-              name='remember'
-              label='Remember me'
-              control={control}
-            />
+            <Checkbox name='remember' label='Remember me' control={control} />
             <ButtonForgotPass />
           </Box>
         </FormBox>
@@ -98,7 +90,7 @@ const Login = () => {
       </Container>
     </Layout>
   );
-}
+};
 
 const Container = styled.View`
   flex: 1;
@@ -121,5 +113,4 @@ const Box = styled.View`
   justify-content: space-between;
 `;
 
-
-export default Login
+export default Login;
