@@ -41,13 +41,14 @@ export default {
     large: '24px',
     xLarge: '28px',
     huge: '80px',
+    nLarge: 20
   },
   spacing: {
     s: '8px',
     m: '16px',
     l: '24px',
     xl: '40px',
-    xxl: '40px',
+    xxl: '45px',
   },
   border: {
     s: '4px',

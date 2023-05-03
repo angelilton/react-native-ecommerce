@@ -65,8 +65,8 @@ const MainBox = styled.View`
     z-index: 3;
     flex: 1;
     flex-grow: 4;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
     margin-top: -${theme.border.xl};
     margin-bottom: -${theme.border.xl};
     border-bottom-left-radius: ${theme.border.xl};
