@@ -1,12 +1,7 @@
 import Constants from 'expo-constants';
 import { ReactNode } from 'react';
-import {
-  View,
-  Dimensions,
-  Platform,
-  KeyboardAvoidingView,
-  ScrollView,
-} from 'react-native';
+import { View, Dimensions, Platform } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import styled, { css, useTheme } from 'styled-components/native';
 
 const assets = [
@@ -20,28 +15,24 @@ type LayoutProps = {
   footer: ReactNode;
 };
 
-const { height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export const Layout = ({ footer, children }: LayoutProps) => {
   const { border } = useTheme();
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <ScrollView>
-        <Container>
-          <ImgBox>
-            <ImageCover source={assets[0]} resizeMode='cover' />
-          </ImgBox>
-          <View style={{ height: border.nxl }}>
-            <ImageCover source={assets[2]} resizeMode='cover' left />
-          </View>
-          <MainBox>{children}</MainBox>
-          <FooterBox>{footer}</FooterBox>
-        </Container>
-      </ScrollView>
-    </KeyboardAvoidingView>
+    <KeyboardAwareScrollView scrollEnabled={false}>
+      <Container>
+        <ImgBox>
+          <ImageCover source={assets[0]} resizeMode='cover' />
+        </ImgBox>
+        <View style={{ height: border.nxl }}>
+          <ImageCover source={assets[2]} resizeMode='cover' left />
+        </View>
+        <MainBox>{children}</MainBox>
+        <FooterBox>{footer}</FooterBox>
+      </Container>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -71,8 +62,7 @@ const ImgBox = styled.View`
 
 const Container = styled.View`
   flex: 1;
-  height: ${height +
-  (Platform.OS === 'android' ? Constants.statusBarHeight : 0)}px;
+  height: ${height + (Platform.OS === "android" ? Constants.statusBarHeight : 0)}px;
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
@@ -94,8 +84,9 @@ const FooterBox = styled.View`
   ${({ theme }) => css`
     z-index: 1;
     flex-grow: 1.2;
-    justify-content: center;
-    padding-top: ${theme.spacing.l}
+    padding-top: ${theme.border.xl};
+    justify-content: space-around;
+    padding-top: ${theme.spacing.l};
     background-color: ${theme.colors.secondary};
   `}
 `;
