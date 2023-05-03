@@ -8,8 +8,7 @@ import { Dimensions } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-
-const { width, height } = Dimensions.get('window');
+import Checkbox from '@components/form/Checkbox';
 
 const ButtonForgotPass = () => {
   const navigation = useNavigation()
@@ -32,6 +31,7 @@ const ButtonForgotPass = () => {
 export type FormProps = {
   email: string;
   password: string;
+  remember: boolean
 };
 
 const LoginSchema = Yup.object().shape({
@@ -48,9 +48,11 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormProps>({
-    mode:'onBlur',
+    mode: 'onBlur',
     resolver: yupResolver(LoginSchema),
+    defaultValues: { email: '', password: '', remember: false },
   });
+
   
   const onSubmit = (data:any) => { console.log(data);}
   
@@ -80,7 +82,11 @@ const Login = () => {
             secureTextEntry
           />
           <Box>
-            <ButtonForgotPass />
+            <Checkbox
+              name='remember'
+              label='Remember me'
+              control={control}
+            />
             <ButtonForgotPass />
           </Box>
         </FormBox>
@@ -96,19 +102,17 @@ const Login = () => {
 
 const Container = styled.View`
   flex: 1;
-  /* justify-content: space-evenly; */
   align-items: center;
   gap: ${({ theme }) => theme.spacing.l};
-  padding: ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.l};
 `;
 
 const FormBox = styled.View`
   ${({ theme }) => css`
     width: 100%;
     gap: ${theme.spacing.m};
-    padding-left: ${theme.spacing.l};
-    padding-right: ${theme.spacing.l};
-    /* border-width: 0.5px; */
+    padding-left: ${theme.spacing.m};
+    padding-right: ${theme.spacing.m};
   `}
 `;
 
