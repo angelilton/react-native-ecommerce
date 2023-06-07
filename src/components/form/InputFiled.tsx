@@ -24,7 +24,7 @@ const InputFiled = ({
   ...props
 }: UseControllerProps<InputFiledProps>) => {
   const {
-    field: { onChange, onBlur, value },
+    field: { onChange, onBlur, value, ref },
     fieldState: { isTouched, invalid },
   } = useController({
     name,
@@ -42,6 +42,7 @@ const InputFiled = ({
       </IconBox>
       <View style={{ flex: 1 }}>
         <TextInput
+          ref={ref}
           value={value}
           onBlur={onBlur}
           onChangeText={onChange}
@@ -62,14 +63,10 @@ const InputFiled = ({
               color={colors.danger}
             />
           ) : (
-            <AntDesign
-              name='checkcircle'
-              size={24}
-              color={colors.primary}
-            />
+            <AntDesign name='checkcircle' size={24} color={colors.primary} />
           ))}
       </IconBox>
-      </Container>
+    </Container>
   );
  }
 

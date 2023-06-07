@@ -29,7 +29,7 @@ export const Layout = ({ footer, children }: LayoutProps) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView>
+      <ScrollView bounces={false}>
         <Container>
           <ImgBox>
             <ImageCover source={assets[0]} resizeMode='cover' />

@@ -2,7 +2,6 @@ import React, { useEffect, useState, ReactElement, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import  AppLoading  from 'expo-app-loading';
 import { Asset } from 'expo-asset';
-import { StatusBar } from 'expo-status-bar';
 import * as Font from 'expo-font';
 import { InitialState, NavigationContainer } from '@react-navigation/native';
 import Constants from 'expo-constants';
@@ -76,7 +75,6 @@ const LoadAssets = ({ assets, fonts, children }: LoadAssetsProps) => {
       {...{ onStateChange, initialState }}
       independent={true}
     >
-      <StatusBar style='light' />
       {children}
     </NavigationContainer>
   );

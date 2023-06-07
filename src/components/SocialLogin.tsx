@@ -45,8 +45,12 @@ const Google = () => (
   </Svg>
 );
 
-const SocialLogin = () => {
-  const { colors, spacing } = useTheme();
+type SocialLogin ={
+  type: 'signUp' | 'login'
+}
+
+const SocialLogin = ({ type }: SocialLogin) => {
+  const { colors } = useTheme();
   const navigation = useNavigation();
 
   return (
@@ -65,18 +69,36 @@ const SocialLogin = () => {
           <Ionicons name='logo-apple' size={42} color='black' />
         </Box>
       </Container>
-      <BorderlessButton
-        style={{marginTop: 8}}
-        onPress={() => navigation.navigate('SignUp')}>
-        <BoxText>
-        <Text type='description' style={{ color: colors.background }}>
-          Don't have an account?
-        </Text>
-        <Text type='description' style={{ color: colors.primary }}>
-          Sign Up here
-        </Text>
-        </BoxText>
-      </BorderlessButton>
+      {type === 'login' && (
+        <BorderlessButton
+          style={{ marginTop: 8 }}
+          onPress={() => navigation.navigate('SignUp')}
+        >
+          <BoxText>
+            <Text type='description' style={{ color: colors.background }}>
+              Don't have an account?
+            </Text>
+            <Text type='description' style={{ color: colors.primary }}>
+              Sign Up here
+            </Text>
+          </BoxText>
+        </BorderlessButton>
+      )}
+      {type === 'signUp' && (
+        <BorderlessButton
+          style={{ marginTop: 8 }}
+          onPress={() => navigation.navigate('Login')}
+        >
+          <BoxText>
+            <Text type='description' style={{ color: colors.background }}>
+              Already have an account
+            </Text>
+            <Text type='description' style={{ color: colors.primary }}>
+              Login here
+            </Text>
+          </BoxText>
+        </BorderlessButton>
+      )}
     </Whapper>
   );
 };

@@ -2,31 +2,14 @@ import styled, { css, useTheme } from 'styled-components/native';
 import SocialLogin from '@components/SocialLogin';
 import { Button, Text, Layout, InputFiled, Checkbox } from '@components/index';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { Dimensions } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-const ButtonForgotPass = () => {
-  const navigation = useNavigation();
-  const { colors } = useTheme();
-
-  return (
-    <TouchableWithoutFeedback
-      onPress={() => navigation.navigate('ForgotPassword')}
-    >
-      <Text type='description' style={{ color: colors.primary }}>
-        Forgot Password
-      </Text>
-    </TouchableWithoutFeedback>
-  );
-};
-
 export type FormProps = {
   email: string;
   password: string;
-  remember: boolean;
+  confirmPassword: string;
 };
 
 const LoginSchema = Yup.object().shape({
@@ -35,9 +18,12 @@ const LoginSchema = Yup.object().shape({
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
+  confirmPassword: Yup.string()
+    .equals([Yup.ref('password')], "Passwords don't match")
+    .required('Required'),
 });
 
-const Login = () => {
+const SignUp = () => {
   const {
     control,
     handleSubmit,
@@ -46,7 +32,7 @@ const Login = () => {
   } = useForm<FormProps>({
     mode: 'onBlur',
     resolver: yupResolver(LoginSchema),
-    defaultValues: { email: '', password: '', remember: false },
+    defaultValues: { email: '', password: '', confirmPassword: '' },
   });
 
   const onSubmit = (data: any) => {
@@ -54,12 +40,10 @@ const Login = () => {
   };
 
   return (
-    <Layout footer={<SocialLogin type='login' />}>
+    <Layout footer={<SocialLogin type='signUp' />}>
       <Container>
-        <Text type='header'>Welcome Back</Text>
-        <Text type='description'>
-          Use your credentials below and login to your account.
-        </Text>
+        <Text type='header'>Create account</Text>
+        <Text type='description'>Let us know your email and password.</Text>
         <FormBox>
           <InputFiled
             control={control}
@@ -82,16 +66,26 @@ const Login = () => {
             secureTextEntry
             returnKeyType='send'
             returnKeyLabel='send'
+            onSubmitEditing={setFocus('confirmPassword')}
+          />
+
+          <InputFiled
+            control={control}
+            name='confirmPassword'
+            icon={'lock1'}
+            error={errors?.password}
+            placeholder='Enter your password'
+            autoCapitalize='none'
+            secureTextEntry
+            returnKeyType='send'
+            returnKeyLabel='send'
             onSubmitEditing={handleSubmit(onSubmit)}
           />
-          <Box>
-            <Checkbox name='remember' label='Remember me' control={control} />
-            <ButtonForgotPass />
-          </Box>
+          
         </FormBox>
         <Button
           type='primary'
-          label='Log into your account'
+          label='Create your account'
           onPress={handleSubmit(onSubmit)}
         />
       </Container>
@@ -120,4 +114,4 @@ const Box = styled.View`
   justify-content: space-between;
 `;
 
-export default Login;
+export default SignUp;
