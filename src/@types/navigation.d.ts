@@ -17,6 +17,12 @@ export declare global {
       SignUp: undefined;
       ForgotPassword: undefined;
       PasswordChanged: undefined;
+      OutfitIdeas: undefined;
+      FavoriteOutfits: undefined;
+      TransactionHistory: undefined;
+      EditProfile: undefined;
+      Settings: undefined;
+      Cart: undefined;
     }
   }
 }

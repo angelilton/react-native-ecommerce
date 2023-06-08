@@ -4,7 +4,8 @@ import { ThemeProvider } from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { AuthRoutes } from '@Authentication/index'
+import { AuthRoutes } from '@screens/Authentication'
+import { HomeRouters } from '@screens/Home';
 import LoadAssets from '@components/LoadAssets';
 import theme from './src/theme';
 
@@ -28,6 +29,7 @@ export default function App() {
             }}
           >
             <Screen name='Authentication' component={AuthRoutes} />
+            <Screen name='Home' component={HomeRouters} />
           </Navigator>
         </SafeAreaProvider>
       </LoadAssets>

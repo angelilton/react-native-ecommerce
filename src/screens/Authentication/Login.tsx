@@ -49,8 +49,13 @@ const Login = () => {
     defaultValues: { email: '', password: '', remember: false },
   });
 
+  const navigation = useNavigation();
+
+
   const onSubmit = (data: any) => {
-    console.log(data);
+    if (data) {
+      navigation.navigate('Home')
+    }
   };
 
   return (
