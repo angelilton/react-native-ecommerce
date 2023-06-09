@@ -10,6 +10,7 @@ export function HomeRouters() {
     <Navigator
       drawerContent={(props) => <DrawerContent {...props} />}
       screenOptions={{
+        // headerShown: false,
         drawerStyle: {
           width: '80%',
         },
