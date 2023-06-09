@@ -12,7 +12,7 @@ type checkboxProps = {
   control: Control<FieldValues>;
 };
 
-const Checkbox = ({
+export const Checkbox = ({
   label,
   control,
   name,
@@ -49,4 +49,3 @@ const Box = styled.View`
   height: ${({ theme }) => theme.sizes.large};
 `;
 
-export default Checkbox

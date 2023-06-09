@@ -45,6 +45,43 @@ export const Layout = ({ footer, children }: LayoutProps) => {
   );
 };
 
+export const DrawerLayout = ({ children }: Pick<LayoutProps, 'children'>) => {
+  const { border, colors } = useTheme();
+  
+  return (
+    <Container>
+      <ImgBox>
+        <View
+          style={{
+            height: '100%',
+            backgroundColor: colors.secondary,
+            borderBottomRightRadius: border.nxl,
+          }}
+        />
+      </ImgBox>
+      <View
+        style={{
+          height: border.nxl,
+          backgroundColor: colors.secondary,
+        }}
+      />
+      
+      <MainDrawer>{children}</MainDrawer>
+      <View
+        style={{
+          height: border.nxl,
+          backgroundColor: colors.secondary,
+        }}
+      >
+        <ImageDrawer source={assets[2]} resizeMode='cover' left />
+      </View>
+      <ImgBox>
+        <ImageDrawer source={assets[0]} resizeMode='cover' left />
+      </ImgBox>
+    </Container>
+  );
+}
+
 const AbsoluteFill = css`
   position: absolute;
   top: 0;
@@ -60,6 +97,11 @@ const ImageCover = styled.Image<{ left?: boolean }>`
   border-bottom-left-radius: ${({ theme }) => theme.border.xl};
   border-top-left-radius: ${({ theme, left }) => (left ? theme.border.xl : 0)};
 `;
+
+const ImageDrawer = styled(ImageCover)`
+  border-bottom-left-radius: 0;
+`
+
 
 const ImgBox = styled.View`
   flex: 1;
@@ -87,6 +129,16 @@ const MainBox = styled.View`
     border-bottom-right-radius: ${theme.border.xl};
     border-top-right-radius: ${theme.border.xl};
     background-color: ${theme.colors.background};
+  `}
+`;
+
+const MainDrawer = styled(MainBox)`
+  ${({ theme }) => css`
+    flex-grow: 4;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: ${theme.border.xl};
+    padding-left: ${theme.spacing.l};
   `}
 `;
 

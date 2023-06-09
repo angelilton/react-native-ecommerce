@@ -16,7 +16,7 @@ type InputFiledProps = {
   control: Control<FieldValues>;
 } & TextInputProps;
 
-const InputFiled = ({
+export const InputFiled = ({
   icon,
   error,
   name,
@@ -83,5 +83,3 @@ const IconBox = styled.View`
   margin-left: ${({ theme }) => theme.border.s};
   margin-right: ${({ theme }) => theme.border.s};
 `;
-
-export default InputFiled;
