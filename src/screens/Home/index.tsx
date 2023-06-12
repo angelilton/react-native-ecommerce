@@ -2,8 +2,28 @@ import Onboarding from '@screens/Authentication/Onboarding';
 import {  createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerContent } from './Drawer';
 import { RoundIcon } from '@components/RoundIcon';
+import { BorderlessButton } from 'react-native-gesture-handler';
+import Icon from '@expo/vector-icons/Feather';
 
-const {Navigator, Screen} = createDrawerNavigator();
+const { Navigator, Screen } = createDrawerNavigator();
+
+
+type HeaderButtonProps = {
+  iconName: keyof typeof Icon.glyphMap;
+  background?: boolean;
+  onPress: () => void;
+};
+
+
+const HeaderButton = ({ iconName, onPress, background }: HeaderButtonProps) => (
+  <BorderlessButton onPress={onPress}>
+    <RoundIcon
+      name={iconName}
+      bkColor={background ? 'background' : 'darkGrey50'}
+      dank
+    />
+  </BorderlessButton>
+);
 
 export function HomeRouters() {
   return (
@@ -14,49 +34,114 @@ export function HomeRouters() {
         drawerStyle: {
           width: '80%',
         },
+
+        headerTitleContainerStyle: {
+          width: '70%',
+          alignItems: 'center',
+        },
+        headerLeftContainerStyle: {
+          paddingLeft: 8,
+        },
+        headerRightContainerStyle: {
+          paddingRight: 8,
+        },
+
         drawerLabelStyle: {
           marginLeft: -15,
           fontFamily: 'SFProText-Semibold',
-          fontSize: 16
+          fontSize: 14,
         },
         drawerActiveTintColor: '#FFFFFF',
-        drawerActiveBackgroundColor:'#BFEAF5'
+        drawerActiveBackgroundColor: '#BFEAF5',
       }}
     >
       <Screen
-        name='Outfit Ideas'
+        name='OutfitIdeas'
         component={Onboarding}
-        options={{
+        options={({navigation}) =>({
+          title: 'Outfit Ideas',
           drawerIcon: () => <RoundIcon name='zap' bkColor='primary' />,
-        }}
+          headerRight: () => (
+            <HeaderButton
+              iconName='shopping-bag'
+              onPress={() =>  navigation.navigate("Cart")}
+            />
+          ),
+        })}
       />
       <Screen
-        name='Favorite Outfits'
+        name='FavoriteOutfits'
         component={Onboarding}
-        options={{
+        options={({navigation}) =>({
+          title: 'Favorite Outfits',
           drawerIcon: () => <RoundIcon name='heart' bkColor='drawer1' />,
-        }}
+          headerRight: () => (
+            <HeaderButton
+              iconName='shopping-bag'
+              onPress={() =>  navigation.navigate("Cart")}
+            />
+          ),
+        })}
+      />
+
+      <Screen
+        name='TransactionHistory'
+        component={Onboarding}
+        options={({ navigation }) => ({
+          title: 'Transaction History',
+          drawerIcon: () => <RoundIcon name='clock' bkColor='drawer3' />,
+          headerLeft: () => (
+            <HeaderButton
+              background
+              iconName='arrow-left'
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+          headerRight: () => (
+            <HeaderButton
+              iconName='share'
+              onPress={() => console.log('Settings')}
+            />
+          ),
+        })}
       />
       <Screen
-        name='Edit Profile'
+        name='EditProfile'
         component={Onboarding}
         options={{
+          title: 'Edit Profile',
           drawerIcon: () => <RoundIcon name='user' bkColor='drawer2' />,
         }}
       />
       <Screen
-        name='Transaction History'
+        name='NotificationSettings'
         component={Onboarding}
-        options={{
-          drawerIcon: () => <RoundIcon name='clock' bkColor='drawer3' />,
-        }}
+        options={({ navigation }) => ({
+          title: 'Notification Settings',
+          drawerIcon: () => <RoundIcon name='settings' bkColor='drawer4' />,
+          headerLeft: () => (
+            <HeaderButton
+              background
+              iconName='arrow-left'
+              onPress={() => navigation.toggleDrawer()}
+            />
+          ),
+        })}
       />
       <Screen
-        name='Notification Settings'
+        name='Cart'
         component={Onboarding}
-        options={{
-          drawerIcon: () => <RoundIcon name='settings' bkColor='drawer4' />,
-        }}
+        options={({ navigation }) => ({
+          title: 'Cart',
+          drawerItemStyle: { display: 'none' },
+          headerLeft: () => (
+            <HeaderButton
+              background
+              iconName='arrow-left'
+              onPress={() => navigation.goBack()}
+            />
+          ),
+        })}
       />
     </Navigator>
   );

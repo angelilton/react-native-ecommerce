@@ -1,3 +1,4 @@
+import { UserHeader } from '@components/UserHeader';
 import { DrawerLayout, RoundIcon } from '@components/index';
 import {
   DrawerItem,
@@ -9,7 +10,8 @@ import {
 export const DrawerContent = (props:DrawerContentComponentProps) => {
   return (
     <DrawerLayout>
-      <DrawerContentScrollView {...props}>
+      <UserHeader />
+      <DrawerContentScrollView>
         <DrawerItemList {...props} />
         <DrawerItem
           label='Logout'

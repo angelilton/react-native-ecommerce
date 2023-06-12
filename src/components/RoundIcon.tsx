@@ -1,16 +1,21 @@
 import styled, { css, DefaultTheme } from 'styled-components/native';
 import { Feather as Icon } from '@expo/vector-icons';
 
-type RoundIconProps = {
+export type RoundIconProps = {
   bkColor?: keyof DefaultTheme['colors'];
   name: keyof typeof Icon.glyphMap;
+  dank?: boolean
 };
 
-export const RoundIcon = ({ name, bkColor }: RoundIconProps) => (
-  <Box bkColor={bkColor}>
-    <Icon name={name} color={'#FFFFFF'} size={22} />
-  </Box>
-);
+export const RoundIcon = ({ name, bkColor, dank=false }: RoundIconProps) => {
+  const iconColor = dank ? '#0C0D34' : '#FFFFFF';
+
+  return (
+    <Box bkColor={bkColor}>
+      <Icon name={name} color={iconColor} size={22} />
+    </Box>
+  );
+};
 
 const Box = styled.View<Pick<RoundIconProps, 'bkColor'>>`
   ${({ theme, bkColor }) => css`

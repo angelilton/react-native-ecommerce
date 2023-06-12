@@ -50,22 +50,21 @@ export const DrawerLayout = ({ children }: Pick<LayoutProps, 'children'>) => {
   
   return (
     <Container>
-      <ImgBox>
+        <ImgBox>
+          <View
+            style={{
+              height: '100%',
+              backgroundColor: colors.secondary,
+              borderBottomRightRadius: border.nxl,
+            }}
+          />
+        </ImgBox>
         <View
           style={{
-            height: '100%',
+            height: border.nxl,
             backgroundColor: colors.secondary,
-            borderBottomRightRadius: border.nxl,
           }}
         />
-      </ImgBox>
-      <View
-        style={{
-          height: border.nxl,
-          backgroundColor: colors.secondary,
-        }}
-      />
-      
       <MainDrawer>{children}</MainDrawer>
       <View
         style={{
@@ -138,7 +137,6 @@ const MainDrawer = styled(MainBox)`
     border-top-right-radius: 0;
     border-bottom-left-radius: 0;
     border-top-left-radius: ${theme.border.xl};
-    padding-left: ${theme.spacing.l};
   `}
 `;
 
