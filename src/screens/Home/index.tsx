@@ -4,6 +4,7 @@ import { DrawerContent } from './Drawer';
 import { RoundIcon } from '@components/RoundIcon';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import Icon from '@expo/vector-icons/Feather';
+import OutfitIdeas from './OutfitIdeas';
 
 const { Navigator, Screen } = createDrawerNavigator();
 
@@ -57,14 +58,14 @@ export function HomeRouters() {
     >
       <Screen
         name='OutfitIdeas'
-        component={Onboarding}
-        options={({navigation}) =>({
+        component={OutfitIdeas}
+        options={({ navigation }) => ({
           title: 'Outfit Ideas',
           drawerIcon: () => <RoundIcon name='zap' bkColor='primary' />,
           headerRight: () => (
             <HeaderButton
               iconName='shopping-bag'
-              onPress={() =>  navigation.navigate("Cart")}
+              onPress={() => navigation.navigate('Cart')}
             />
           ),
         })}
@@ -72,13 +73,13 @@ export function HomeRouters() {
       <Screen
         name='FavoriteOutfits'
         component={Onboarding}
-        options={({navigation}) =>({
+        options={({ navigation }) => ({
           title: 'Favorite Outfits',
           drawerIcon: () => <RoundIcon name='heart' bkColor='drawer1' />,
           headerRight: () => (
             <HeaderButton
               iconName='shopping-bag'
-              onPress={() =>  navigation.navigate("Cart")}
+              onPress={() => navigation.navigate('Cart')}
             />
           ),
         })}
