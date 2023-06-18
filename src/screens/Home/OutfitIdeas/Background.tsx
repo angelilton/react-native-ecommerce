@@ -16,7 +16,7 @@ export const Background = () => {
           source={image}
           borderTopLeftRadius={border.nxl}
           borderBottomRightRadius={border.nxl}
-          resizeMode='contain'
+          resizeMode='cover'
           style={{
             ...StyleSheet.absoluteFillObject,
             flex: 1,

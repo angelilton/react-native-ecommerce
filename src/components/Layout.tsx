@@ -81,7 +81,7 @@ export const DrawerLayout = ({ children }: Pick<LayoutProps, 'children'>) => {
   );
 }
 
-const AbsoluteFill = css`
+export const AbsoluteFill = css`
   position: absolute;
   top: 0;
   left: 0;
