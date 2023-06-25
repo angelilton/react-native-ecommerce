@@ -1,6 +1,6 @@
 import React, { useEffect, useState, ReactElement, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import  AppLoading  from 'expo-app-loading';
+// import  {AppLoading}  from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { InitialState, NavigationContainer } from '@react-navigation/native';
@@ -66,9 +66,9 @@ const LoadAssets = ({ assets, fonts, children }: LoadAssetsProps) => {
     []
   );
 
-  if (!ready || !isNavigationReady) {
-    return <AppLoading />;
-  }
+  // if (!ready || !isNavigationReady) {
+  //   return <AppLoading />;
+  // }
 
   return (
     <NavigationContainer
