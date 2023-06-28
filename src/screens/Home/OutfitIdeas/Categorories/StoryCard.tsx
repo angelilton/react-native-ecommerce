@@ -1,7 +1,7 @@
 import { Text } from '@components/Text';
 import { useState } from 'react';
-import { View } from 'react-native';
-import { BorderlessButton } from 'react-native-gesture-handler';
+import { Pressable, View } from 'react-native';
+import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import styled, { css } from 'styled-components/native';
 
 type StoryCardProps = {
@@ -18,8 +18,14 @@ export default function StoryCard({ title, color }: StoryCardProps) {
   const [isClicked, setIsClicked] = useState(false);
 
   return (
-    <BorderlessButton onPress={() => setIsClicked((prev) => !prev)}>
-      <Container>
+    <Container>
+      <Pressable
+        onPress={() => setIsClicked((prev) => !prev)}
+        style={({ pressed }) => ({
+          opacity: pressed ? 0.5 : 1,
+          transform: [{ scale: pressed ? 0.9 : 1 }],
+        })}
+      >
         <View
           style={{
             width: OUTER_RADIUS * 2,
@@ -40,11 +46,11 @@ export default function StoryCard({ title, color }: StoryCardProps) {
               justifyContent: 'center',
               alignItems: 'center',
             }}
-            />
+          />
         </View>
-        <Text type='description'>{title}</Text>
-      </Container>
-    </BorderlessButton>
+      </Pressable>
+      <Text type='description'>{title}</Text>
+    </Container>
   );
 }
 
@@ -55,7 +61,6 @@ const Container = styled.View`
     margin-left: ${theme.spacing.s};
     gap: ${theme.spacing.s};
     padding-vertical: ${theme.spacing.m};
-    padding-horizontal: ${theme.spacing.s};
-  
+    padding-horizontal: ${theme.border.s};
   `}
 `;
