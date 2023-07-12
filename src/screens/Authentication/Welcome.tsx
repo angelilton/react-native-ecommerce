@@ -1,6 +1,6 @@
 import { Text, Button } from '@components/index';
 import { useNavigation } from '@react-navigation/native';
-import { Dimensions } from 'react-native';
+import { Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import styled, { DefaultTheme, css } from 'styled-components/native'
 import { SLIDE_HEIGHT } from './Onboarding/Slide';
@@ -36,10 +36,9 @@ export default function Welcome() {
             label="Join us, it's Free"
             onPress={() => navigation.navigate('SignUp')}
           />
-          <BorderlessButton
-            onPress={() => navigation.navigate('Onboarding')}>
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('Home')}>
             <Text type='description'>Forgot password?</Text>
-          </BorderlessButton>
+          </TouchableWithoutFeedback>
         </TextContainer>
       </Header>
     </Container>

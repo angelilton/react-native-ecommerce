@@ -5,6 +5,7 @@ import { RoundIcon } from '@components/RoundIcon';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import Icon from '@expo/vector-icons/Feather';
 import OutfitIdeas from './OutfitIdeas';
+import FavoriteOutfits from './FavoriteOutfits';
 
 const { Navigator, Screen } = createDrawerNavigator();
 
@@ -72,7 +73,7 @@ export function HomeRouters() {
       />
       <Screen
         name='FavoriteOutfits'
-        component={Onboarding}
+        component={FavoriteOutfits}
         options={({ navigation }) => ({
           title: 'Favorite Outfits',
           drawerIcon: () => <RoundIcon name='heart' bkColor='drawer1' />,
