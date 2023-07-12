@@ -1,7 +1,7 @@
 import styled, { DefaultTheme, css } from 'styled-components/native';
 
 type TextProps = {
-  type: 'hero' | 'header' | 'subtitle' | 'description' | 'text'
+  type: 'hero' | 'header' | 'info'| 'subtitle' | 'description' | 'text'
 }
 
 const textType = {
@@ -19,6 +19,12 @@ const textType = {
     text-transform: capitalize;
     font-size: ${sizes.xLarge};
     color: ${colors.secondary};
+  `,
+  info: ({ sizes, colors }: DefaultTheme) => css`
+    font-family: 'SFProText-Semibold';
+    text-transform: capitalize;
+    font-size: ${sizes.medium};
+    color: ${colors.info};
   `,
   subtitle: ({ sizes, colors }: DefaultTheme) => css`
     font-family: 'SFProText-Semibold';
@@ -39,7 +45,7 @@ const textType = {
     line-height: ${spacing.l};
     color: ${colors.secondary};
   `,
-}
+};
 
 export const Text = styled.Text<TextProps>`
   ${(p) => textType[p.type](p.theme)}
