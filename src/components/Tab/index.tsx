@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
 import styled, { useTheme } from 'styled-components/native';
 import { RectButton } from 'react-native-gesture-handler';
-import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 import { Text } from '@components/index';
 import { mix, useTiming } from 'react-native-redash';
 
@@ -16,21 +16,19 @@ type TabNavbarProps = {
 function TabNavbar({
   tabs,
   OnPressTab,
-  tabIndex,
+  translationX,
 }: {
   tabs: TabNavbarProps[];
   OnPressTab: any;
-  tabIndex:any
+  translationX: Animated.SharedValue<number>;
 }) {
   const { colors, sizes } = useTheme();
-
-  const transition = useTiming(tabIndex);
 
   const dot = useAnimatedStyle(() => ({
     transform: [
       {
         translateX: mix(
-          transition.value,
+          translationX.value,
           ScreenWidth * 0.25,
           ScreenWidth * 0.72
         ),
@@ -43,7 +41,7 @@ function TabNavbar({
       {tabs.map((tab, i) => (
         <Box key={tab.id}>
           <RectButton
-            onPress={() => OnPressTab(i)}
+            onPress={(() => OnPressTab(i))}
             style={{ alignItems: 'center', padding: sizes.nMedium }}
           >
             <Text type='description'>{tab.title}</Text>

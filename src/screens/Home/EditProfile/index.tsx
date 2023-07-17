@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 
 const { width } = Dimensions.get('window');
 
-const renderChildren = ({ title }) => (
+const RenderChildren = ({title}) => (
   <View style={{ width }}>
     <Text>{title}</Text>
   </View>
@@ -16,61 +16,46 @@ const tabs = [
   {
     id: 'config',
     title: 'Configuration',
-    children: renderChildren,
   },
   {
     id: 'info',
     title: 'Personal Info',
-    children: renderChildren,
-  },
+  }
 ];
 
 function EditProfile() {
-   const scrollX = useRef<Animated.ScrollView>(null);
+   const scrollX = useRef<any>(null);
   const translationX = useSharedValue(0);
-  const [tabIndex, setIndex] = useState(0);
 
-  const scrollHandler = useAnimatedScrollHandler((event) => {
-    translationX.value = event.contentOffset.x;
-  });
+   const scrollHandler = useAnimatedScrollHandler((event) => {
+     translationX.value = Math.round(event.contentOffset.x / width);
+   });
 
-  const OnPressTab = (index: number) => {
-    if (index > tabIndex) {
-    
-      scrollX.current?.scrollTo({
-        x: width * index ,
-        animated: true,
-      });
-    }
-
-    if (index < tabIndex) {
-      scrollX.current?.scrollTo({
-        x: -width * (index + 1),
-        animated: true,
-      });
-    }
-
-     setIndex(index);
+  const press = (index:number) => {
+    scrollX?.current.scrollToIndex({ animated: true, index: index });
+    translationX.value =index;
   };
 
   
   return (
     <Container>
-      <TabNavbar tabs={tabs} OnPressTab={OnPressTab} tabIndex={tabIndex} />
-      <Animated.ScrollView
+      <TabNavbar
+        tabs={tabs}
+        OnPressTab={press}
+        translationX={translationX}
+      />
+      <Animated.FlatList
         ref={scrollX}
         horizontal
-        snapToInterval={width}
-        decelerationRate={'fast'}
+        data={tabs}
+        renderItem={({ item }) => <RenderChildren title={item.title} />}
         showsHorizontalScrollIndicator={false}
         bounces={false}
         scrollEventThrottle={16}
+        snapToInterval={width}
+        decelerationRate={'fast'}
         onScroll={scrollHandler}
-      >
-        {tabs.map((tab, index) => (
-          <tab.children key={index} title={tab.title} />
-        ))}
-      </Animated.ScrollView>
+      />
     </Container>
   );
 }
