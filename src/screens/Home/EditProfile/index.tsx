@@ -1,8 +1,9 @@
-import TabNavbar from '@components/Tab';
-import { useEffect, useRef, useState } from 'react';
-import { View, Text, Dimensions } from 'react-native'
-import Animated, { useAnimatedRef, useAnimatedScrollHandler, useDerivedValue, useSharedValue } from 'react-native-reanimated';
+import { useRef } from 'react';
 import styled from 'styled-components/native';
+import TabNavbar from '@components/Tab';
+import { View, Text, Dimensions } from 'react-native'
+import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated';
+import Configuration from './Configuration';
 
 const { width } = Dimensions.get('window');
 
@@ -16,11 +17,13 @@ const tabs = [
   {
     id: 'config',
     title: 'Configuration',
+    children: Configuration,
   },
   {
     id: 'info',
     title: 'Personal Info',
-  }
+    children: RenderChildren,
+  },
 ];
 
 function EditProfile() {
@@ -48,7 +51,7 @@ function EditProfile() {
         ref={scrollX}
         horizontal
         data={tabs}
-        renderItem={({ item }) => <RenderChildren title={item.title} />}
+        renderItem={({ item }) => <item.children title={item.title} />}
         showsHorizontalScrollIndicator={false}
         bounces={false}
         scrollEventThrottle={16}

@@ -1,4 +1,4 @@
-import { RectButton } from 'react-native-gesture-handler';
+import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 import styled, { css, useTheme } from 'styled-components/native';
 import { Text } from './Text';
 
@@ -6,22 +6,25 @@ type ButtonType = {
   type: 'default' | 'primary';
 };
 
-type ButtonProps = {
+interface ButtonProps extends ButtonType, RectButtonProps {
   label: string;
   onPress: () => void;
-} & ButtonType;
+} 
 
-export const Button = ({ label, type, onPress }: ButtonProps) => {
-const { colors } = useTheme();
-  
+export const Button = ({ label, type, onPress, ...props }: ButtonProps) => {
+  const { colors } = useTheme();
+
   const color = type === 'primary' ? colors.white : colors.primary;
 
   return (
     <ButtonWhapper
       type={type}
       {...{ onPress }}
+      {...props}
     >
-      <Text type={'description'} style={{ color }}>{label}</Text>
+      <Text type={'description'} style={{ color }}>
+        {label}
+      </Text>
     </ButtonWhapper>
   );
 };
