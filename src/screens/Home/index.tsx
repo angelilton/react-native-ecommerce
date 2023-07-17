@@ -6,6 +6,8 @@ import { BorderlessButton } from 'react-native-gesture-handler';
 import Icon from '@expo/vector-icons/Feather';
 import OutfitIdeas from './OutfitIdeas';
 import FavoriteOutfits from './FavoriteOutfits';
+import TransactionHistory from './TransactionHistory';
+import EditProfile from './EditProfile';
 
 const { Navigator, Screen } = createDrawerNavigator();
 
@@ -30,6 +32,7 @@ const HeaderButton = ({ iconName, onPress, background }: HeaderButtonProps) => (
 export function HomeRouters() {
   return (
     <Navigator
+      initialRouteName={'EditProfile'}
       drawerContent={(props) => <DrawerContent {...props} />}
       screenOptions={{
         // headerShown: false,
@@ -88,7 +91,7 @@ export function HomeRouters() {
 
       <Screen
         name='TransactionHistory'
-        component={Onboarding}
+        component={TransactionHistory}
         options={({ navigation }) => ({
           title: 'Transaction History',
           drawerIcon: () => <RoundIcon name='clock' bkColor='drawer3' />,
@@ -109,7 +112,7 @@ export function HomeRouters() {
       />
       <Screen
         name='EditProfile'
-        component={Onboarding}
+        component={EditProfile}
         options={{
           title: 'Edit Profile',
           drawerIcon: () => <RoundIcon name='user' bkColor='drawer2' />,

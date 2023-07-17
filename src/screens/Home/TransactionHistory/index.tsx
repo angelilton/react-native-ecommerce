@@ -65,7 +65,6 @@ const footerHeight = Dimensions.get('window').width / 5.5;
 
 function TransactionHistory() {
   const { colors } = useTheme();
-  console.log('MAIN', new Date('10-01-2019').getTime());
   return (
     <Container>
       <Box>
