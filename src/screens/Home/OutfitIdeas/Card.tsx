@@ -64,7 +64,7 @@ export const Card = ({
       translateX.value = withSpring(
         dest,
         {
-          overshootClamping: dest === 0 ? false : true,
+          overshootClamping: dest !== 0,
           restSpeedThreshold: dest === 0 ? 0.01 : 100,
           restDisplacementThreshold: dest === 0 ? 0.01 : 100,
         },

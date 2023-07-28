@@ -1,10 +1,10 @@
-import { Text } from '@components/index';
 import {
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import AnimatedCheckbox from 'react-native-checkbox-reanimated';
 import styled, { useTheme } from 'styled-components/native';
 import { Control, FieldValues, UseControllerProps, useController } from 'react-hook-form';
+import {Text} from "@components/Text";
 
 type checkboxProps = {
   label: string;
@@ -39,7 +39,7 @@ export const Checkbox = ({
           boxOutlineColor={colors.primary}
         />
       </Box>
-      <Text type='description'>{label}</Text>
+      <Text type={"description"}>{label}</Text>
     </TouchableWithoutFeedback>
   );
 };
