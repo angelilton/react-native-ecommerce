@@ -17,7 +17,7 @@ const textType = {
   header: ({ sizes, colors }: DefaultTheme) => css`
     font-family: 'SFProText-Semibold';
     text-transform: capitalize;
-    font-size: ${sizes.xLarge};
+    font-size:20px; //${sizes.large};
     color: ${colors.secondary};
   `,
   info: ({ sizes, colors }: DefaultTheme) => css`

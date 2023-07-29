@@ -36,6 +36,7 @@ const CheckboxGroup = ({ options, radio }: CheckboxGroupProps) => {
             style={{
               width: 'auto',
               height: 'auto',
+              borderRadius: 18,
               paddingVertical: 7,
               paddingHorizontal: 16
             }}

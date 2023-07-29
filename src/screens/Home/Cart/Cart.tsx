@@ -1,6 +1,8 @@
+import {useRef, useState} from "react";
 import {Dimensions, View} from 'react-native'
 import {
     PanGestureHandler,
+    GestureHandlerRootView,
     PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
 import styled, {useTheme} from 'styled-components/native'
@@ -11,17 +13,21 @@ import Animated, {
     useAnimatedGestureHandler,
 
 } from 'react-native-reanimated';
+import {ScrollView} from 'react-native-gesture-handler'
 import {Text} from '@components/Text';
 import {Button} from '@components/Button';
 import Checkout from './Checkout';
-
+import CartItem from "./CartItem";
 
 const {width} = Dimensions.get('window');
 const aspectRatio = width / 375;
+const borderRadii = 75
 
-const CartContainer = () => {
+const defaultItems = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}];
+
+const Cart = () => {
     const {colors, border, sizes} = useTheme();
-
+    const [items, setItems] = useState(defaultItems);
 
     const translateY = useSharedValue(1);
 
@@ -29,7 +35,10 @@ const CartContainer = () => {
 
     const onGestureEvent = useAnimatedGestureHandler<
         PanGestureHandlerGestureEvent,
-        { x: number; y: number }
+        {
+            x: number;
+            y: number
+        }
     >({
         onStart: (event, ctx) => {
             ctx.y = translateY.value;
@@ -55,45 +64,50 @@ const CartContainer = () => {
 
     const check = useAnimatedStyle(() => ({
         opacity: withSpring(opacity.value),
-        display: opacity.value ? 'flex' : 'none',
+        display: !!opacity.value ? 'flex' : 'none'
     }));
+
+    const check2 = useAnimatedStyle(() => ({
+        opacity: opacity.value === 1 ? 0 : 1
+    }));
+
+    const scrollRef = useRef(null);
 
     return (
         <View style={{flex: 1, backgroundColor: colors.secondary}}>
-            <PanGestureHandler onGestureEvent={onGestureEvent}>
-                <Animated.View
-                    style={[
-                        {
-                            backgroundColor: 'white',
-                            borderBottomLeftRadius: border.nxl,
-                            borderBottomRightRadius: border.nxl,
-                        },
-                        style,
-                    ]}
+
+            <Animated.View
+                style={[
+                    {
+                        backgroundColor: 'white',
+                        borderBottomLeftRadius: border.nxl,
+                        borderBottomRightRadius: border.nxl,
+                    },
+                    style,
+                ]}
+            >
+                <View
+                    style={{
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        justifyContent: 'flex-end'
+                    }}
                 >
-                    <View
-                        style={{
-                            position: 'absolute',
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            height: border.nxl,
-                            justifyContent: 'flex-end',
-                            alignItems: 'center',
-                        }}
+                    <ScrollView
+                        ref={scrollRef}
+                        bounces={false}
+                        showsVerticalScrollIndicator={false}
                     >
-                        <View
-                            style={{
-                                height: 5 * aspectRatio,
-                                backgroundColor: colors.background2,
-                                width: 60 * aspectRatio,
-                                borderRadius: 2.5 * aspectRatio,
-                                marginBottom: sizes.nMedium,
-                            }}
-                        />
-                    </View>
-                </Animated.View>
-            </PanGestureHandler>
+                        {items.map((item) => <CartItem key={item.id}/>)}
+                    </ScrollView>
+                    <PanGestureHandler simultaneousHandlers={scrollRef} onGestureEvent={onGestureEvent}>
+                        <Animated.View>
+                            <IndictorBar/>
+                        </Animated.View>
+                    </PanGestureHandler>
+                </View>
+            </Animated.View>
             <Animated.View
                 style={[
                     {
@@ -123,7 +137,9 @@ const CartContainer = () => {
                         </View>
                     </BoxPrice>
                 </Animated.View>
-                <Checkout/>
+                <Animated.View style={check2}>
+                    <Checkout/>
+                </Animated.View>
             </Animated.View>
         </View>
     );
@@ -136,4 +152,14 @@ const BoxPrice = styled.View`
   padding: ${({theme}) => theme.spacing.m};
 `;
 
-export default CartContainer
+const IndictorBar = styled.View`
+  height: ${5 * aspectRatio}px;
+  width: ${60 * aspectRatio}px;
+  border-radius: ${2.5 * aspectRatio}px;
+  align-self: center;
+  margin-top: ${({theme}) => theme.sizes.medium};
+  margin-bottom: ${({theme}) => theme.sizes.medium};
+  background-color: ${({theme}) => theme.colors.background2};
+`;
+
+export default Cart

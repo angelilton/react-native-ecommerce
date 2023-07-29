@@ -8,6 +8,7 @@ import OutfitIdeas from './OutfitIdeas';
 import FavoriteOutfits from './FavoriteOutfits';
 import TransactionHistory from './TransactionHistory';
 import EditProfile from './EditProfile';
+import Cart from './Cart/Cart';
 
 const { Navigator, Screen } = createDrawerNavigator();
 
@@ -32,7 +33,7 @@ const HeaderButton = ({ iconName, onPress, background }: HeaderButtonProps) => (
 export function HomeRouters() {
   return (
     <Navigator
-      initialRouteName={'EditProfile'}
+      initialRouteName={'Cart'}
       drawerContent={(props) => <DrawerContent {...props} />}
       screenOptions={{
         // headerShown: false,
@@ -135,7 +136,7 @@ export function HomeRouters() {
       />
       <Screen
         name='Cart'
-        component={Onboarding}
+        component={Cart}
         options={({ navigation }) => ({
           title: 'Cart',
           drawerItemStyle: { display: 'none' },

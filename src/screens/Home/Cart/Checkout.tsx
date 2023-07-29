@@ -57,7 +57,7 @@ function Checkout() {
 }
 
 const Container = styled.View`
-  flex: 1;
+  height: 100%;
   padding: ${({ theme }) => theme.spacing.m};
   background-color: ${({ theme }) => theme.colors.secondary};
   justify-content: space-between;
@@ -77,6 +77,7 @@ const Box = styled.View`
 
 const ButtonBox = styled.View`
   align-items: center;
+  margin-bottom: ${({ theme }) => theme.spacing.m};
 `;
 const Divider = styled.View`
   width: 100%;
