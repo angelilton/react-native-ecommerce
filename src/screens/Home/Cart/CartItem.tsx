@@ -1,11 +1,5 @@
 import styled from "styled-components/native";
 import { Text } from "@components/Text"
-import {useState, useRef} from "react";
-import { View } from "react-native";
-import {ScrollView} from 'react-native-gesture-handler'
-interface ItemProps {
-    onDelete: () => void;
-}
 
 const CartItem = () => (
         <Container>

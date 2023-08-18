@@ -24,6 +24,7 @@ export default function App() {
       <LoadAssets {...{ fonts }}>
         <SafeAreaProvider>
           <Navigator
+            initialRouteName={'Home'}
             screenOptions={{
               headerShown: false,
             }}

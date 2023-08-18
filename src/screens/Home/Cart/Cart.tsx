@@ -2,7 +2,6 @@ import {useRef, useState} from "react";
 import {Dimensions, View} from 'react-native'
 import {
     PanGestureHandler,
-    GestureHandlerRootView,
     PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
 import styled, {useTheme} from 'styled-components/native'
@@ -18,6 +17,7 @@ import {Text} from '@components/Text';
 import {Button} from '@components/Button';
 import Checkout from './Checkout';
 import CartItem from "./CartItem";
+import SwiperRow from "@screens/Home/Cart/SwiperRow";
 
 const {width} = Dimensions.get('window');
 const aspectRatio = width / 375;
@@ -99,7 +99,11 @@ const Cart = () => {
                         bounces={false}
                         showsVerticalScrollIndicator={false}
                     >
-                        {items.map((item) => <CartItem key={item.id}/>)}
+                        {items.map((item) => (
+                            <SwiperRow key={item.id} onDelete={() => 'click'} simultaneousHandlers={scrollRef} >
+                            <CartItem />
+                            </SwiperRow>
+                        ))}
                     </ScrollView>
                     <PanGestureHandler simultaneousHandlers={scrollRef} onGestureEvent={onGestureEvent}>
                         <Animated.View>
